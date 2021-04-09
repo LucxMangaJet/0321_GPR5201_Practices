@@ -16,6 +16,7 @@ public class BowController : MonoBehaviour
     private void Update()
     {
         BowUpdate();
+        ArrowPreviewUpdate();
     }
 
     private void BowUpdate()
