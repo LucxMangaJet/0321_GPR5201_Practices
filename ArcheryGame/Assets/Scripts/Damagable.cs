@@ -4,5 +4,18 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    void TakeDamage(float damageAmount);
+    TakeDamageResult TakeDamage(float damageAmount);
+}
+
+public interface IEffectedDamagable : IDamagable
+{
+    bool IgnoresEffect(string effectName);
+}
+
+
+public enum TakeDamageResult
+{
+    Normal, 
+    Destroy,
+    Stuck 
 }
