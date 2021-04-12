@@ -20,7 +20,7 @@ public class Arrow : MonoBehaviour
     private void Update()
     {
         float strength = followDirectionCurve.Evaluate(_rigidbody.velocity.magnitude);
-         transform.forward =Vector3.Lerp(transform.forward, _rigidbody.velocity, strength * Time.deltaTime);
+        transform.forward = Vector3.Lerp(transform.forward, _rigidbody.velocity, strength * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -28,25 +28,34 @@ public class Arrow : MonoBehaviour
         IDamagable damagable = collision.collider.GetComponent<IDamagable>();
         if (damagable != null)
         {
-            if(damage > 0)
+            bool skipEffects = false;
+            if (damage > 0)
             {
-                var result = damagable.TakeDamage(damage);
+                var result = damagable.TakeArrowDamage(damage);
 
-                if (result == TakeDamageResult.Destroy)
+                if (result == ArrowDamageResponse.Destroy)
                 {
                     Destroy(gameObject);
                 }
-                else if(result == TakeDamageResult.Stuck)
+                else if (result == ArrowDamageResponse.Stuck)
                 {
                     transform.parent = collision.transform;
                     Destroy(this);
                     Destroy(GetComponent<Rigidbody>());
                     Destroy(GetComponent<Collider>());
                 }
+                else if (result == ArrowDamageResponse.Reflect)
+                {
+                    transform.forward = _rigidbody.velocity;
+                    skipEffects = true;
+                }
             }
 
+            if (skipEffects)
+                return;
+
             IEffectedDamagable effectedDamagable = damagable as IEffectedDamagable;
-            if(effectedDamagable != null)
+            if (effectedDamagable != null)
             {
                 EffectParams parameters = new EffectParams(collision.gameObject, effectedDamagable);
                 foreach (var effect in effects)

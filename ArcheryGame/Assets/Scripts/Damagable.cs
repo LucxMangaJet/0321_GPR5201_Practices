@@ -4,7 +4,8 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    TakeDamageResult TakeDamage(float damageAmount);
+    ArrowDamageResponse TakeArrowDamage(float damageAmount);
+    void TakeDamage(float damageAmount);
 }
 
 public interface IEffectedDamagable : IDamagable
@@ -13,9 +14,10 @@ public interface IEffectedDamagable : IDamagable
 }
 
 
-public enum TakeDamageResult
+public enum ArrowDamageResponse
 {
-    Normal, 
+    None, 
     Destroy,
-    Stuck 
+    Stuck,
+    Reflect
 }

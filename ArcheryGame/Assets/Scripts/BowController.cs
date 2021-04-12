@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BowController : MonoBehaviour
 {
-    [SerializeField] GameObject arrowPrefab;
+    [SerializeField] GameObject[] arrowPrefabs;
     [SerializeField] Transform arrowSpawnTransform;
     [SerializeField] Transform previewArrow;
     [SerializeField] float arrowVelocityPerDrawSecond;
@@ -17,6 +17,7 @@ public class BowController : MonoBehaviour
     [SerializeField] float maxPredictionTime;
 
     float bowDrawTime = 0;
+    int currentArrowIndex = 0;
 
     private void OnEnable()
     {
@@ -30,6 +31,9 @@ public class BowController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+            CycleThroughArrowUsed();
+
         BowUpdate();
         ArrowPreviewUpdate();
     }
@@ -55,8 +59,8 @@ public class BowController : MonoBehaviour
         }
         else
         {
-            if(predictionRenderer.positionCount != 0)
-            predictionRenderer.positionCount = 0;
+            if (predictionRenderer.positionCount != 0)
+                predictionRenderer.positionCount = 0;
         }
     }
 
@@ -83,7 +87,7 @@ public class BowController : MonoBehaviour
 
     private void ShootArrow()
     {
-        var arrow = Instantiate(arrowPrefab, GetArrowPositionAtDrawTime(bowDrawTime), arrowSpawnTransform.rotation);
+        var arrow = Instantiate(arrowPrefabs[currentArrowIndex], GetArrowPositionAtDrawTime(bowDrawTime), arrowSpawnTransform.rotation);
         var rigidbody = arrow.GetComponent<Rigidbody>();
 
         if (rigidbody)
@@ -115,7 +119,17 @@ public class BowController : MonoBehaviour
         return arrowSpawnTransform.position + arrowSpawnTransform.forward * (maxDrawTime - Mathf.Min(maxDrawTime, t)) * drawMovementPerSecond;
     }
 
+    public void CycleThroughArrowUsed()
+    {
+        currentArrowIndex = (currentArrowIndex + 1) % arrowPrefabs.Length;
+        UpdatePreviewMaterial();
+    }
 
+    private void UpdatePreviewMaterial()
+    {
+        var renderer = previewArrow.GetComponentInChildren<Renderer>();
+        renderer.sharedMaterial = arrowPrefabs[currentArrowIndex].GetComponentInChildren<Renderer>().sharedMaterial;
+    }
 }
 
 public static class ProjectilePrediction
