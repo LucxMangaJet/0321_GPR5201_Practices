@@ -134,13 +134,15 @@ public class BowController : MonoBehaviour
 
 public static class ProjectilePrediction
 {
-    public static Vector3 Predict(Vector3 p0, Vector3 v0, float t, Vector3? g = null)
+    public static Vector3 Predict(Vector3 p0, Vector3 v0, float t)
     {
-        if (g == null)
-        {
-            g = Physics.gravity;
-        }
+        Vector3 g = Physics.gravity;
+        // a = g => change of velocity over time 
+        // v  => change of position over time 
+        // f''(t) = g
+        // f'(t) = gt + v0 
+        // f(t) = 0.5f * g * t * t + v0 * t + p0
 
-        return 0.5f * g.Value * t * t + v0 * t + p0;
+        return 0.5f * g * t * t + v0 * t + p0;
     }
 }
