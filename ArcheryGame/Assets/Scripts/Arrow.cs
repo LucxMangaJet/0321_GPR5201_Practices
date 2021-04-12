@@ -31,23 +31,25 @@ public class Arrow : MonoBehaviour
             bool skipEffects = false;
             if (damage > 0)
             {
-                var result = damagable.TakeArrowDamage(damage);
+                var response = damagable.TakeArrowDamage(damage);
 
-                if (result == ArrowDamageResponse.Destroy)
+                switch (response)
                 {
-                    Destroy(gameObject);
-                }
-                else if (result == ArrowDamageResponse.Stuck)
-                {
-                    transform.parent = collision.transform;
-                    Destroy(this);
-                    Destroy(GetComponent<Rigidbody>());
-                    Destroy(GetComponent<Collider>());
-                }
-                else if (result == ArrowDamageResponse.Reflect)
-                {
-                    transform.forward = _rigidbody.velocity;
-                    skipEffects = true;
+                    case ArrowDamageResponse.Destroy:
+                        Destroy(gameObject);
+                        break;
+
+                    case ArrowDamageResponse.Stuck:
+                        transform.parent = collision.transform;
+                        Destroy(this);
+                        Destroy(GetComponent<Rigidbody>());
+                        Destroy(GetComponent<Collider>());
+                        break;
+
+                    case ArrowDamageResponse.Reflect:
+                        transform.forward = _rigidbody.velocity;
+                        skipEffects = true;
+                        break;
                 }
             }
 
@@ -60,10 +62,7 @@ public class Arrow : MonoBehaviour
                 EffectParams parameters = new EffectParams(collision.gameObject, effectedDamagable);
                 foreach (var effect in effects)
                 {
-                    if (!effectedDamagable.IgnoresEffect(effect))
-                    {
-                        EffectHandler.Instance.ApplyEffect(effect, parameters);
-                    }
+                    EffectHandler.Instance.ApplyEffect(effect, parameters);
                 }
             }
         }

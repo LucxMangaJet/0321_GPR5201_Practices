@@ -33,7 +33,7 @@ public class EffectHandler
         }
     }
 
-    public void ApplyEffect(string effectName,EffectParams parameters)
+    public void ApplyEffect(string effectName, EffectParams parameters)
     {
         if (effectsToMethod.ContainsKey(effectName))
         {
@@ -41,7 +41,7 @@ public class EffectHandler
         }
         else
         {
-            Debug.LogError("Effect not defined: " + effectName);
+            Debug.LogWarning("Unable to apply effect: " + effectName + ". Effect not defined.");
         }
     }
 }

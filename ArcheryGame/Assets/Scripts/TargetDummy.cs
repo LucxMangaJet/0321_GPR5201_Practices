@@ -17,11 +17,6 @@ public class TargetDummy : MonoBehaviour, IEffectedDamagable
         }
     }
 
-    public bool IgnoresEffect(string effectName)
-    {
-        return false;
-    }
-
     public ArrowDamageResponse TakeArrowDamage(float damageAmount)
     {
         if (arrowResponse != ArrowDamageResponse.Reflect)

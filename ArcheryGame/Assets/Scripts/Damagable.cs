@@ -10,7 +10,6 @@ public interface IDamagable
 
 public interface IEffectedDamagable : IDamagable
 {
-    bool IgnoresEffect(string effectName);
 }
 
 
