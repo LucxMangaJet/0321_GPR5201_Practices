@@ -6,20 +6,34 @@ using UnityEngine.TestTools;
 
 public class ExampleTests
 {
-    // A Test behaves as an ordinary method
     [Test]
-    public void ExampleTestsSimplePasses()
+    public void HoangTest()
     {
-        // Use the Assert class to test conditions
+        Vector3 player = Vector3.zero;
+
+        Vector3 enemy1 = new Vector3(1, 0, 0);
+        Vector3 enemy2 = new Vector3(2, 0, 0);
+
+        Vector3 result = ExampleModelCode.FindClosestPositionTo(player, new Vector3[] { enemy1, enemy2 });
+
+        Assert.AreEqual(enemy1, result, "FindClosestPosition failed.");
     }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator ExampleTestsWithEnumeratorPasses()
+
+    [Test]
+    public void NoEnemiesTest()
     {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
+        Vector3 player = Vector3.zero;
+
+        Assert.Throws(typeof(System.ArgumentNullException),
+            delegate { Vector3 result = ExampleModelCode.FindClosestPositionTo(player, null); });
+
+        Assert.Throws(typeof(System.ArgumentException),
+            delegate { Vector3 result = ExampleModelCode.FindClosestPositionTo(player, new Vector3[0]); });
+
     }
+
+
+
+
 }
