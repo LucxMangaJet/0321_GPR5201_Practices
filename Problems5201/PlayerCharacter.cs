@@ -29,5 +29,9 @@ namespace Problems5201
             this.hp = hp;
             this.aggroLevel = aggro;
         }
+        public override string ToString()
+        {
+            return $"Character (T: {type} , HP: {hp}, Aggro: {aggroLevel})";
+        }
     }
 }

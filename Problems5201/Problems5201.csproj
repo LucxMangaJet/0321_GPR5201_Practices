@@ -48,6 +48,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AITargetingTests.cs" />
+    <Compile Include="PlayerCharacter.cs" />
     <Compile Include="Problems.cs" />
     <Compile Include="ClosestTargetTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
