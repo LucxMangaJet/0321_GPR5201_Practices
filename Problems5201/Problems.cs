@@ -24,8 +24,28 @@ namespace Problems5201
 
         public static int GetClosestTargetInFront(Vector3 position, Vector3 forward, Vector3[] enemiesPositions)
         {
-            
-            throw new System.NotImplementedException();
+            int closest = -1;
+            float min = float.MaxValue;
+
+            for (int i = 0; i < enemiesPositions.Length; i++)
+            {
+                Vector3 enemy = enemiesPositions[i];
+
+                Vector3 norm = (enemy - position).normalized;
+                float dot = Vector3.Dot(norm, forward);
+                bool inFront = dot > 0;
+
+                if (inFront)
+                {
+                    float distance = (enemy - position).magnitude;
+                    if (distance < min)
+                    {
+                        min = distance;
+                        closest = i;
+                    }
+                }
+            }
+            return closest;
         }
 
 
@@ -43,8 +63,75 @@ namespace Problems5201
 
         public static PlayerCharacter SelectCharacter_SmartFocusedRanged(PlayerCharacter[] characters)
         {
-            throw new System.NotImplementedException();
+            if (characters == null) return null;
+
+            if (characters.Length == 0) return null;
+
+            PlayerCharacter result = null;
+            bool containsAliveRanged = false;
+            bool below20Mode = false;
+            bool contansAliveRangedBelow20 = false;
+            List<PlayerCharacter> filteredCharacters = new List<PlayerCharacter>(characters.Length);
+
+            //filter out dead, check condititions
+            foreach (var player in characters)
+            {
+                if (player.HP <= 0) continue;
+
+                if (player.HP < 20)
+                {
+                    below20Mode = true;
+                    if (player.Type == CharacterType.Ranged)
+                        contansAliveRangedBelow20 = true;
+                }
+
+                if (player.Type == CharacterType.Ranged) containsAliveRanged = true;
+
+                filteredCharacters.Add(player);
+            }
+
+            if (below20Mode)
+            {
+                return SelectLowestHP(filteredCharacters, rangedOnly: contansAliveRangedBelow20);
+            }
+            else
+            {
+                return SelectHighestAggro(filteredCharacters, rangedOnly: containsAliveRanged);
+            }
         }
 
+        private static PlayerCharacter SelectLowestHP(List<PlayerCharacter> players, bool rangedOnly)
+        {
+            float min = float.MaxValue;
+            PlayerCharacter result = null;
+
+            foreach (var p in players)
+            {
+                bool typeIsGood = !rangedOnly || p.Type == CharacterType.Ranged;
+                if (typeIsGood && p.HP < min)
+                {
+                    min = p.HP;
+                    result = p;
+                }
+            }
+            return result;
+        }
+
+        private static PlayerCharacter SelectHighestAggro(List<PlayerCharacter> players, bool rangedOnly)
+        {
+            float max = float.MinValue;
+            PlayerCharacter result = null;
+
+            foreach (var p in players)
+            {
+                bool typeIsGood = !rangedOnly || p.Type == CharacterType.Ranged;
+                if (typeIsGood && p.AggroLevel > max)
+                {
+                    max = p.AggroLevel;
+                    result = p;
+                }
+            }
+            return result;
+        }
     }
 }
