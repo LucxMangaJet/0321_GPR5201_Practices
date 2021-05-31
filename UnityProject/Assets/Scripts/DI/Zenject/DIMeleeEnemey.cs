@@ -12,7 +12,7 @@ namespace DISolution
     public class DIMeleeEnemey : MonoBehaviour, IEnemy
     {
         [Zenject.Inject] IEnemyHandler handler;
-
+        [Zenject.Inject] DebugSettings debugSettings;
 
         private void OnEnable()
         {
@@ -26,6 +26,8 @@ namespace DISolution
 
         private void Update()
         {
+            if (debugSettings.DisableAI) return;
+
             var target = handler.GetTarget();
             
             //Attack

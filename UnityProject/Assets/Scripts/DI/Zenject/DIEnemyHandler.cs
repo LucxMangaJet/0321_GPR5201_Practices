@@ -15,6 +15,7 @@ namespace DISolution
     public class DIEnemyHandler : MonoBehaviour, IEnemyHandler
     {
         [SerializeField] Transform target;
+        [Zenject.Inject] DebugSettings debugSettings;
 
         private List<IEnemy> enemies = new List<IEnemy>();
 

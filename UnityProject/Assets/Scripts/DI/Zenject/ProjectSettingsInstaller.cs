@@ -6,6 +6,6 @@ public class ProjectSettingsInstaller : MonoInstaller
     [SerializeField] DebugSettings debugSettings;
     public override void InstallBindings()
     {
-        Container.Bind<DebugSettings>().FromScriptableObject(debugSettings).AsSingle();
+        Container.Bind<DebugSettings>().FromScriptableObject(debugSettings);
     }
 }

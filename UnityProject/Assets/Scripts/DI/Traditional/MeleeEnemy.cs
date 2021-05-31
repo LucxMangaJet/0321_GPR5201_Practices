@@ -8,18 +8,18 @@ namespace TraditionalSolution
     {
         private void OnEnable()
         {
-            EnemyHandler.Instance.RegisterEnemy(this);
+            SinglePlayerEnemyHandler.Instance.RegisterEnemy(this);
         }
 
         private void OnDisable()
         {
-            EnemyHandler.Instance.UnregisterEnemy(this);
+            SinglePlayerEnemyHandler.Instance.UnregisterEnemy(this);
         }
 
 
         private void Update()
         {
-            var target = EnemyHandler.Instance.GetTarget();
+            var target = SinglePlayerEnemyHandler.Instance.GetTarget();
 
             //Attack target
         }

@@ -4,28 +4,28 @@ using UnityEngine;
 
 namespace TraditionalSolution
 {
-    public class EnemyHandler : MonoBehaviour
+    public class SinglePlayerEnemyHandler : MonoBehaviour
     {
-        private static EnemyHandler instance;
+        private static SinglePlayerEnemyHandler instance;
 
         [SerializeField] Transform target;
-        
+
         private List<MeleeEnemy> enemies;
 
-        public static EnemyHandler Instance => instance;
+        public static SinglePlayerEnemyHandler Instance { get => instance; }
 
         private void Awake()
         {
-            if(instance == null)
+            if (instance == null)
             {
                 instance = this;
                 enemies = new List<MeleeEnemy>();
             }
             else
             {
-                Debug.LogWarning ("Second EnemyHandler found. Destroying.");
+                Debug.LogWarning("Second EnemyHandler found. Destroying.");
                 Destroy(this);
-            }   
+            }
         }
 
         public void RegisterEnemy(MeleeEnemy enemy)
