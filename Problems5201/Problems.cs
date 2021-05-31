@@ -24,28 +24,27 @@ namespace Problems5201
 
         public static int GetClosestTargetInFront(Vector3 position, Vector3 forward, Vector3[] enemiesPositions)
         {
-            int closest = -1;
-            float min = float.MaxValue;
-
-            for (int i = 0; i < enemiesPositions.Length; i++)
-            {
-                Vector3 enemy = enemiesPositions[i];
-
-                Vector3 norm = (enemy - position).normalized;
-                float dot = Vector3.Dot(norm, forward);
-                bool inFront = dot > 0;
-
-                if (inFront)
-                {
-                    float distance = (enemy - position).magnitude;
-                    if (distance < min)
-                    {
-                        min = distance;
-                        closest = i;
-                    }
-                }
-            }
-            return closest;
+            
+            throw new System.NotImplementedException();
         }
+
+
+
+        /*
+        Problem 02:
+        Given an array of PlayerCharacters, return the Character that matches the following conditions.
+            Return the Ranged character with the highest AggroLevel that is still alive (hp>0).
+            If there are no ranged characters, return the meelee character with the highest AggroLevel that is still alive.
+            If there is a player (regardless of type) that is below 20 hp, prioritize him/her.            
+            If multiple players are below 20hp, priorizie ranged followed by lower hp.
+            In case of identical stats pick the one that comes first in the array.
+            Return null when no characters are passed or alive.
+         */
+
+        public static PlayerCharacter SelectCharacter_SmartFocusedRanged(PlayerCharacter[] characters)
+        {
+            throw new System.NotImplementedException();
+        }
+
     }
 }
